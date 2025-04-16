@@ -47,6 +47,24 @@ def Comatrice(A: list):
     return B
 
 
+def factoriel(n : int):
+    fact = 1
+    for i in range(1,n+1):
+        fact *= i
+    return fact
+
+def cos(x : float,n : int):
+    result = 0
+    for k in range(0,n+1):
+        result += ((-1)**k) * ((x ** (2 * k)) / factoriel(2 * k))
+    return result
+
+def sin(x : float,n : int):
+    result = 0
+    for k in range(0,n+1):
+        result += (-1)**k * (x**(2*k+1))/factoriel(2*k+1)
+    return result
+
 def Transpose(matrice: list):
     transpose: list = []
 
@@ -91,6 +109,16 @@ def Prod_Matrice_A__Matrice_B(A: list, B: list):
     return C
 
 
+def multiplier_matrice_point(matrice, point):
+    resultat = [
+        matrice[0][0] * point[0] + matrice[0][1] * point[1] + matrice[0][2] * point[2],
+        matrice[1][0] * point[0] + matrice[1][1] * point[1] + matrice[1][2] * point[2],
+        matrice[2][0] * point[0] + matrice[2][1] * point[1] + matrice[2][2] * point[2],
+    ]
+
+    return resultat
+
+
 def A_Prod_InverseA(A: list):
     InverseA: list = InverseMatrice(A)
 
@@ -98,13 +126,6 @@ def A_Prod_InverseA(A: list):
 
 
 
+def Somme2List(A: list, B: list):
+    return  [(A[0] + B[0]), (A[1] + B[1]), (A[2] + B[2])]
 
-def main():
-    A: list = [[1, 2, 3], [44, 5, 6], [7, 8, 9]]
-    Z: list = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
-
-    B: list = A_Prod_InverseA(Z)
-
-    print(B)
-
-main()
