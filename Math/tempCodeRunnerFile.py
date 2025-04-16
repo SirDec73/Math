@@ -1,4 +1,4 @@
-for i in range(len(newW[0])):
+#for i in range(len(newW[0])):
         #     newW[0][i] = newW[0][i] - newG[0]
         #     newW[1][i] = newW[1][i] - newG[1]
         #     newW[2][i] = newW[2][i] - newG[2]

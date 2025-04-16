@@ -1,102 +1,9 @@
 import matplotlib.pyplot as plt
-import matplotlib.animation as anim
+import matplotlib.animation as animation
 import Tools as tools
 import TP3Math as tp3
 
 
-
-def Transpose(matrice : list[list[float]]) -> list[list[float]]: 
-    mTranspose : list[list[float]] = []
-
-    for i in range(len(matrice[0])):   
-        mTranspose.append([])
-        for j in range(len(matrice)):
-            mTranspose[i].append(matrice[j][i])
-
-    return mTranspose
-
-
-def Ligne(n,xmin,xmax):
-    W=[]
-    dx=(xmax-xmin)/(n-1)
-    for x in range (n):
-        W.append([x*dx,0,0])
-    return(Transpose(W))
-
-
-def CarreVide(n : int, a : int):
-    W = []
-    dx = a/(n-1)
-    for x in range(n):
-        W.append([x*dx - a/2,0,0])
-        W.append([x*dx - a/2,a,0])
-        W.append([0 - a/2,x*dx,0])
-        W.append([a - a/2,x*dx,0])
-    return (Transpose(W))
-    
-def CarrePlein(n : int, a : int, z : int):
-    W = []
-    dx = a/(n-1)
-    for x in range(int(n**(1/2))):
-        for y in range(int(n**(1/2))):
-            W.append([x*dx,y*dx,z])
-    return (Transpose(W))
-
-def RectanglePlein(n : int, a : int, b : int, z : int):
-    W = []
-    dx = a/(n-1)
-    dy = b/(n-1)
-    for x in range(int(n**(1/2))):
-        for y in range(int(n**(1/2))):
-            W.append([-b/2+x*dx,y*dy,z])
-    return (Transpose(W))
-
-def PavePlein(n : float, largeur : int, longueur : int, hauteur : int):
-
-    points_par_axe =  int(n**(1/3))
-
-    dx = largeur / (points_par_axe - 1)
-    dy = longueur / (points_par_axe - 1)
-    dz = hauteur / (points_par_axe - 1)
-
-    points = []
-
-    for i in range(points_par_axe):
-        for j in range(points_par_axe):
-            for k in range(points_par_axe):
-                x = -largeur / 2 + i * dx
-                y = -longueur / 2 + j * dy
-                z = -hauteur / 2 + k * dz
-                points.append([x, y, z])
-
-    return Transpose(points)
-
-def CerclePlein(n : int, r : int, t :int, p :int):
-    W = []
-    dr = r/(n-1)
-
-    precision : int = int(n//t)
-
-    for k in range (1,t+1):
-        for i in range(0,precision):
-            W.append([(dr * i * t/2 * tools.cos(2*3.14/(t/k), 10)), (dr * i * t/2 * tools.sin(2*3.14/(t/k), 10)), p])
-        
-
-    return (Transpose(W))
-
-def CylindrePlein(n : int, r : int, t : int, h : int):
-    
-    W = []
-
-    dr = r/(n-1)
-    for k in range(h):
-        #W.append(CerclePlein(n/h,r,t,k-(h/2)))
-        precision : int = int((n//t)/h)
-        for j in range (1,t+1):
-            for i in range(0,precision):
-                W.append([(dr * i * t/2 * tools.cos(2*3.14/(t/j), 10)), (dr * i * t/2 * tools.sin(2*3.14/(t/j), 10)), k-(h/2)])
-
-    return (Transpose(W))
 
 def Solide(n):
     X : list[float] = []
@@ -104,7 +11,7 @@ def Solide(n):
     Z : list[float] = []
 
     #Planche
-    (X1,Y1,Z1)=PavePlein(n*0.57,80,21,1)
+    (X1,Y1,Z1)=tools.PavePlein(n*0.57,80,21,1)
 
     for i in range (len(X1)):
         X.append(X1[i])
@@ -112,12 +19,12 @@ def Solide(n):
         Z.append(Z1[i])
 
     #Truck
-    (X2,Y2,Z2)=PavePlein(n*0.09,6,8,1)
+    (X2,Y2,Z2)=tools.PavePlein(n*0.09,6,8,1)
     for i in range (len(X2)):
         X2[i] += 20 
         Z2[i] -= 1 
 
-    (X3,Y3,Z3)=PavePlein(n*0.09,6,8,1)
+    (X3,Y3,Z3)=tools.PavePlein(n*0.09,6,8,1)
     for i in range (len(X3)):
         X3[i] -= 20 
         Z3[i] -= 1 
@@ -130,12 +37,12 @@ def Solide(n):
         Z.append(Z3[i])
 
     #Tige
-    (X4,Y4,Z4)=PavePlein(n*0.04,0.5,15,0.1)
+    (X4,Y4,Z4)=tools.PavePlein(n*0.04,0.5,15,0.1)
     for i in range (len(X4)):
         X4[i] += 20 
         Z4[i] -= 2
     
-    (X5,Y5,Z5)=PavePlein(n*0.04,0.5,15,0.1)
+    (X5,Y5,Z5)=tools.PavePlein(n*0.04,0.5,15,0.1)
     for i in range (len(X5)):
         X5[i] -= 20 
         Z5[i] -= 2
@@ -148,7 +55,7 @@ def Solide(n):
         Z.append(Z5[i])
 
     # ROUE
-    (X6,Y6,Z6)=PavePlein(n*0.04,2,2,0.5)
+    (X6,Y6,Z6)=tools.PavePlein(n*0.04,2,2,0.5)
     for i in range (len(X6)):
         X6[i] -= 20 
         Y6[i] -= 7.5 
@@ -255,6 +162,7 @@ def rotateSkate(X: list, Y: list, Z: list, F, G, Ig, h):
         plt.show()
         (omega,Teta)=tp3.rotation(Ig,F, G,Teta,omega,h)
         newW=tp3.rotate((X,Y,Z),Teta)
+        
 
 def mouvement(X: list[float],
               Y: list[float],
@@ -307,10 +215,56 @@ def mouvement(X: list[float],
     return 0
 
 
-
-if __name__ == '__main__':
+def mouvementAnime(X, Y, Z, m, I, F, G, vG, omega, tmax, n):
+    newG = G
+    newvG = vG
+    newW = (X, Y, Z)
+    Teta = [0, 0, 0]
+    G0 = [0, 0, 0]
     
-   
+    
+    h=tmax/n
+
+    positions = []
+
+    for i in range(n):
+        newG, newvG = tp3.translation(m, F, newG, newvG, h)
+        newW = tp3.translate(newW, G, newG)
+        G = newG
+
+        for j in range(len(newW[0])):
+            newW[0][j] -= newG[0]
+            newW[1][j] -= newG[1]
+            newW[2][j] -= newG[2]
+
+        omega, Teta = tp3.rotation(I, F, G0, Teta, omega, h)
+        newW = tp3.rotate(newW, Teta)
+
+        for j in range(len(newW[0])):
+            newW[0][j] += newG[0]
+            newW[1][j] += newG[1]
+            newW[2][j] += newG[2]
+
+        positions.append((list(newW[0]), list(newW[1]), list(newW[2])))
+
+    fig = plt.figure()
+    ax = plt.axes(projection='3d')
+    scat = ax.scatter([], [], [], c='blue', s=1)
+
+    ax.set_xlim3d(-100, 100)
+    ax.set_ylim3d(-100, 100)
+    ax.set_zlim3d(-200, 0)
+
+    def update(frame):
+        Xf, Yf, Zf = positions[frame]
+        scat._offsets3d = (Xf, Yf, Zf)
+        return scat,
+
+    ani = animation.FuncAnimation(fig, update, frames=len(positions), interval=50,)
+    plt.show()
+
+
+if __name__ == '__main__':   
 
     #m1 = 1 # Planche
     #m2 = 1 # Roue
@@ -355,70 +309,12 @@ if __name__ == '__main__':
     
     vG : list[float] = [0,0,0]
     omega : list[float] = [0,0,0]
-
-    #newI = deplace_mat(Ig, mTotal ,G, A)
-    
-    #print(newI)
     
     tmax=5
-    n=10
-    h=tmax/n
+    n=100
     
     (X,Y,Z) = Solide(5000)
-    #translateSkate(X, Y, Z, F, mTotal, h) 
-    
-    #rotateSkate(X, Y, Z, F, G,Ig, h)
           
-    mouvement(X, Y, Z,mTotal,Ig,F,G,vG,omega,h,10)
-
-
-    #N = 10 / 100
-    #t: list = []
-    #y: list = []
-    #
-    #for i in range(100):
-    #    t.append(N)
-    #    N+= 0.1
-    #    y.append(sin(t[i], 20))
-    
-    
-    ##fig, axis = plt.subplots()
-    #(X,Y,Z)=newW
-    #fig = plt.figure()
-    #ax = plt.axes(projection='3d')
-    #ax.scatter3D(X, Y, Z, c=Z, cmap='ocean')
-    #ax.axes.set_xlim3d(left=-5, right=5)
-    #ax.axes.set_ylim3d(bottom=-5, top=5)
-    #ax.axes.set_zlim3d(bottom=-5, top=5) 
-    #
-    #x: list[list[float]] = []
-    #y: list[list[float]] = []
-    #z: list[list[float]] = []
-    #
-    #    
-    #animated_plot, = ax.plot([], [], [])
-    #
-    #
-   #
-    #for i in range(10):        
-    #    (newG,newvG)=tp3.translation(m,F,newG,newvG,h)
-    #    newW=tp3.translate(W,G,newG)
-    #    
-    #    x.append(newW[0])
-    #    y.append(newW[1])
-    #    z.append(newW[2])
-    #
-    #def AnimationTranslate(frame):
-    #    
-    #    animated_plot.set_data(x[:frame], y[:frame], z[:frame])
-    #
-    #    return animated_plot,
-    #
-    #
-    #animation = anim.FuncAnimation(fig=fig, func=AnimationTranslate, frames=len(x), interval=25)
-    #
-    #
-    #plt.show()
-    
+    mouvementAnime(X, Y, Z,mTotal,Ig,F,G,vG,omega,tmax,n)    
     
     

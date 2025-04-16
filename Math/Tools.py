@@ -129,3 +129,100 @@ def A_Prod_InverseA(A: list):
 def Somme2List(A: list, B: list):
     return  [(A[0] + B[0]), (A[1] + B[1]), (A[2] + B[2])]
 
+
+
+
+
+
+def Transpose(matrice : list[list[float]]) -> list[list[float]]: 
+    mTranspose : list[list[float]] = []
+
+    for i in range(len(matrice[0])):   
+        mTranspose.append([])
+        for j in range(len(matrice)):
+            mTranspose[i].append(matrice[j][i])
+
+    return mTranspose
+
+
+def Ligne(n,xmin,xmax):
+    W=[]
+    dx=(xmax-xmin)/(n-1)
+    for x in range (n):
+        W.append([x*dx,0,0])
+    return(Transpose(W))
+
+
+def CarreVide(n : int, a : int):
+    W = []
+    dx = a/(n-1)
+    for x in range(n):
+        W.append([x*dx - a/2,0,0])
+        W.append([x*dx - a/2,a,0])
+        W.append([0 - a/2,x*dx,0])
+        W.append([a - a/2,x*dx,0])
+    return (Transpose(W))
+    
+def CarrePlein(n : int, a : int, z : int):
+    W = []
+    dx = a/(n-1)
+    for x in range(int(n**(1/2))):
+        for y in range(int(n**(1/2))):
+            W.append([x*dx,y*dx,z])
+    return (Transpose(W))
+
+def RectanglePlein(n : int, a : int, b : int, z : int):
+    W = []
+    dx = a/(n-1)
+    dy = b/(n-1)
+    for x in range(int(n**(1/2))):
+        for y in range(int(n**(1/2))):
+            W.append([-b/2+x*dx,y*dy,z])
+    return (Transpose(W))
+
+def PavePlein(n : float, largeur : int, longueur : int, hauteur : int):
+
+    points_par_axe =  int(n**(1/3))
+
+    dx = largeur / (points_par_axe - 1)
+    dy = longueur / (points_par_axe - 1)
+    dz = hauteur / (points_par_axe - 1)
+
+    points = []
+
+    for i in range(points_par_axe):
+        for j in range(points_par_axe):
+            for k in range(points_par_axe):
+                x = -largeur / 2 + i * dx
+                y = -longueur / 2 + j * dy
+                z = -hauteur / 2 + k * dz
+                points.append([x, y, z])
+
+    return Transpose(points)
+
+def CerclePlein(n : int, r : int, t :int, p :int):
+    W = []
+    dr = r/(n-1)
+
+    precision : int = int(n//t)
+
+    for k in range (1,t+1):
+        for i in range(0,precision):
+            W.append([(dr * i * t/2 * tools.cos(2*3.14/(t/k), 10)), (dr * i * t/2 * tools.sin(2*3.14/(t/k), 10)), p])
+        
+
+    return (Transpose(W))
+
+def CylindrePlein(n : int, r : int, t : int, h : int):
+    
+    W = []
+
+    dr = r/(n-1)
+    for k in range(h):
+        #W.append(CerclePlein(n/h,r,t,k-(h/2)))
+        precision : int = int((n//t)/h)
+        for j in range (1,t+1):
+            for i in range(0,precision):
+                W.append([(dr * i * t/2 * tools.cos(2*3.14/(t/j), 10)), (dr * i * t/2 * tools.sin(2*3.14/(t/j), 10)), k-(h/2)])
+
+    return (Transpose(W))

@@ -20,30 +20,6 @@ def Derive(v_2:list[float],a_1:list[float],h:float):
     return SommeList(a_1 * h, v_2) 
 
 
-# def Translation(m:float,F:list[list[list[float]]],G:list[list[list[float]]],vG:list[float,float,float],h:float): 
-
-#     #Calcul somme des forces
-#     sommeAcc : list[float] = [0,0,0]
-#     for i in range(len(F)):
-#         sommeAcc = SommeList(sommeAcc,F[i][0]) 
-#     sommeForce: list[float]  = sommeAcc * m
-
-#     #Calcul nouvelle vitesse
-#     new_vG : list[float] = Derive(vG,sommeForce,h)
-
-#     #Calcul nouvelle position
-#     # for i in range(len(G)):
-#     #     for j in range(len(G[i])):
-#     #         for k in range(len(G[i])):
-#     #             G[i][j][k] = Derive(G[i][j][k],new_vG,h)
-#     for k in range(len(G[i])):
-#         G[20][0][k] = Derive(G[0][0][k],new_vG,h)
-    
-#     new_G :list[list[list[float]]] = G
-#     return new_vG, new_G
-
-
-
 def translation(m,F,G,vG,h):
     SF=[0,0,0]
     for i in range(len(F)):
@@ -86,9 +62,7 @@ def rotation(I: list[list[float]], F: list[list[list[float]]], G: list[float], t
     MatMg = [[SM[0], 0, 0], [0, SM[1], 0], [0, 0, SM[2]]]
     
     Inverse = tools.InverseMatrice(I)
-    omega2=prod_vect_scal(omega, h)
-
-    newTeta = tools.Somme2List(teta, omega2) #TODO Est-ce que c'est uns somme ou une multiplication ?
+    newTeta =prod_vect_scal(omega, h)
 
     newomega = tools.multiplier_matrice_point(Inverse, SM)
     
