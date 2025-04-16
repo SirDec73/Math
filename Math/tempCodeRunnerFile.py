@@ -1,10 +1,12 @@
- # (X6,Y6,Z6)=PavePlein(200,2,2,0.5)
-    # for i in range (len(X6)):
-    #     X6[i] -= 20 
-    #     X6[i] -= 7.5 
-    #     X6[i] -= 2
+for i in range(len(newW[0])):
+        #     newW[0][i] = newW[0][i] - newG[0]
+        #     newW[1][i] = newW[1][i] - newG[1]
+        #     newW[2][i] = newW[2][i] - newG[2]
 
-    # for i in range (len(X6)):
-    #     X.append(X6[i])
-    #     Y.append(X6[i])
-    #     Z.append(X6[i])
+        # (omega,Teta)=tp3.rotation(I,F, G0,Teta,omega,t)
+        # newW=tp3.rotate(newW,Teta)
+
+        # for i in range(len(newW[0])):
+        #     newW[0][i] = newW[0][i] + newG[0]
+        #     newW[1][i] = newW[1][i] + newG[1]
+        #     newW[2][i] = newW[2][i] + newG[2]

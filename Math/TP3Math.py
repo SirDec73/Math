@@ -86,24 +86,18 @@ def rotation(I: list[list[float]], F: list[list[list[float]]], G: list[float], t
     MatMg = [[SM[0], 0, 0], [0, SM[1], 0], [0, 0, SM[2]]]
     
     Inverse = tools.InverseMatrice(I)
-    print("Omega")
-    print(omega)
     omega2=prod_vect_scal(omega, h)
-    newTeta = tools.Somme2List(teta, omega2)
-    
-    print("Omega2")
-    print(omega2)
+
+    newTeta = tools.Somme2List(teta, omega2) #TODO Est-ce que c'est uns somme ou une multiplication ?
+
     newomega = tools.multiplier_matrice_point(Inverse, SM)
-    print("newOmega")
-    print(omega2)
-    
     
     return (newomega, newTeta)
     
 
 def rotate(W, teta):
     newW=[[],[],[]]
-    precision = 10
+    precision = 50
     Mox = [[1, 0, 0], [0, tools.cos(teta[0], precision), -tools.sin(teta[0], precision)], [0, tools.sin(teta[0], precision), tools.cos(teta[0], precision)]]
     Moy = [[tools.cos(teta[1], precision), 0, -tools.sin(teta[1], precision)], [0, 1, 0], [tools.sin(teta[1], precision), 0, tools.cos(teta[1], precision)]]
     Moz = [[tools.cos(teta[2], precision), -tools.sin(teta[2], precision), 0], [tools.sin(teta[2], precision), tools.cos(teta[2], precision), 0], [0, 0, 1]]

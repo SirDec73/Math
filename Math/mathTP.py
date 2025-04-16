@@ -228,12 +228,12 @@ def translateSkate(X: list, Y: list, Z: list, F, m, h):
         fig = plt.figure()
         ax = plt.axes(projection='3d')
         ax.scatter3D(X, Y, Z, c=Z, cmap='ocean')
-        ax.axes.set_xlim3d(left=-70, right=70)
-        ax.axes.set_ylim3d(bottom=-70, top=70)
-        ax.axes.set_zlim3d(bottom=-7, top=7)
+        ax.axes.set_xlim3d(left=-50, right=50)
+        ax.axes.set_ylim3d(bottom=-50, top=50)
+        ax.axes.set_zlim3d(bottom=-50, top=50)
         plt.show()
         (newG,newvG)=tp3.translation(m,F,newG,newvG,h)
-        newW=tp3.translate((X,Y,Z),G,newG)
+        newW=tp3.translate((X,Y,Z),G,newG) 
 
 
 
@@ -249,20 +249,79 @@ def rotateSkate(X: list, Y: list, Z: list, F, G, Ig, h):
         fig = plt.figure()
         ax = plt.axes(projection='3d')
         ax.scatter3D(X, Y, Z, c=Z, cmap='ocean')
-        ax.axes.set_xlim3d(left=-70, right=70)
-        ax.axes.set_ylim3d(bottom=-70, top=70)
-        ax.axes.set_zlim3d(bottom=-7, top=7)
+        ax.axes.set_xlim3d(left=-50, right=50)
+        ax.axes.set_ylim3d(bottom=-50, top=50)
+        ax.axes.set_zlim3d(bottom=-50, top=50)
         plt.show()
         (omega,Teta)=tp3.rotation(Ig,F, G,Teta,omega,h)
         newW=tp3.rotate((X,Y,Z),Teta)
 
+def mouvement(X: list[float],
+              Y: list[float],
+              Z: list[float], 
+              m : float, 
+              I :list[list[float]], 
+              F:list[list[list[float]]], 
+              G : list[float], 
+              vG : list[float], 
+              omega : list[float], 
+              t : float, 
+              n : int):
+    
+    newG=G
+    newvG=vG
+
+    newW= (X,Y,Z)
+    Teta= [0,0,0]
+    
+    G0 = [0,0,0]
+
+    for i in range(n):
+        
+        (newG,newvG)=tp3.translation(m,F,newG,newvG,t)
+        newW=tp3.translate(newW,G,newG)
+        G = newG
+        print(newG)
+
+        for i in range(len(newW[0])):
+            newW[0][i] = newW[0][i] - newG[0]
+            newW[1][i] = newW[1][i] - newG[1]
+            newW[2][i] = newW[2][i] - newG[2]
+
+        (omega,Teta)=tp3.rotation(I,F, G0,Teta,omega,t)
+        newW=tp3.rotate(newW,Teta)
+
+        for i in range(len(newW[0])):
+            newW[0][i] = newW[0][i] + newG[0]
+            newW[1][i] = newW[1][i] + newG[1]
+            newW[2][i] = newW[2][i] + newG[2]
+
+        fig = plt.figure()
+        ax = plt.axes(projection='3d')
+        ax.scatter3D(newW[0], newW[1], newW[2], c=Z, cmap='ocean')
+        ax.axes.set_xlim3d(left=-100, right=100)
+        ax.axes.set_ylim3d(bottom=-100, top=100)
+        ax.axes.set_zlim3d(bottom=-200, top=0)
+        plt.show()
+
+    return 0
+
+
 
 if __name__ == '__main__':
     
-    m1 = 1
-    m2 = 1
-    m3 = 1
-    m4 = 1
+   
+
+    #m1 = 1 # Planche
+    #m2 = 1 # Roue
+    #m3 = 1 # Tige
+    #m4 = 1 # Truck
+
+
+    m1 = 1.176 # Planche
+    m2 = 0.071 # Roue
+    m3 = 0.127 # Tige
+    m4 = 0.72  # Truck
     
     mTotal = m1 + 4*m2 + 2*m3 + 2*m4
     
@@ -294,6 +353,9 @@ if __name__ == '__main__':
     
     newI : list[list[float]]
     
+    vG : list[float] = [0,0,0]
+    omega : list[float] = [0,0,0]
+
     #newI = deplace_mat(Ig, mTotal ,G, A)
     
     #print(newI)
@@ -305,9 +367,9 @@ if __name__ == '__main__':
     (X,Y,Z) = Solide(5000)
     #translateSkate(X, Y, Z, F, mTotal, h) 
     
-    rotateSkate(X, Y, Z, F, G,Ig, h)
+    #rotateSkate(X, Y, Z, F, G,Ig, h)
           
-         
+    mouvement(X, Y, Z,mTotal,Ig,F,G,vG,omega,h,10)
 
 
     #N = 10 / 100
