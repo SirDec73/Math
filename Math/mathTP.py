@@ -237,7 +237,7 @@ def translateSkate(X: list, Y: list, Z: list, F, m, h):
 
 
 
-def rotateSkate(X: list, Y: list, Z: list, F, G, h):
+def rotateSkate(X: list, Y: list, Z: list, F, G, Ig, h):
     vG=[0,0,0]
 
     newW= (X,Y,Z)
@@ -253,7 +253,7 @@ def rotateSkate(X: list, Y: list, Z: list, F, G, h):
         ax.axes.set_ylim3d(bottom=-70, top=70)
         ax.axes.set_zlim3d(bottom=-7, top=7)
         plt.show()
-        (omega,Teta)=tp3.rotation((X,Y,Z),F, G,Teta,omega,h)
+        (omega,Teta)=tp3.rotation(Ig,F, G,Teta,omega,h)
         newW=tp3.rotate((X,Y,Z),Teta)
 
 
@@ -305,7 +305,7 @@ if __name__ == '__main__':
     (X,Y,Z) = Solide(5000)
     #translateSkate(X, Y, Z, F, mTotal, h) 
     
-    rotateSkate(X, Y, Z, F, G, h)
+    rotateSkate(X, Y, Z, F, G,Ig, h)
           
          
 

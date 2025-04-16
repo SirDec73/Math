@@ -86,12 +86,16 @@ def rotation(I: list[list[float]], F: list[list[list[float]]], G: list[float], t
     MatMg = [[SM[0], 0, 0], [0, SM[1], 0], [0, 0, SM[2]]]
     
     Inverse = tools.InverseMatrice(I)
-    print("SizeA")
-    print(teta)
-    newTeta = tools.Somme2List(teta, prod_vect_scal(omega, h))
-    print("SizeB")
-    print(newTeta)
+    print("Omega")
+    print(omega)
+    omega2=prod_vect_scal(omega, h)
+    newTeta = tools.Somme2List(teta, omega2)
+    
+    print("Omega2")
+    print(omega2)
     newomega = tools.multiplier_matrice_point(Inverse, SM)
+    print("newOmega")
+    print(omega2)
     
     
     return (newomega, newTeta)
